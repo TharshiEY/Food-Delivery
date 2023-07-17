@@ -47,6 +47,7 @@ public class OrderServiceImpl implements OrderService{
 
     @KafkaListener(topics = "order-topic")
     public void consumeKafkaMessage(String message) {
+        log.info("OrderServiceImpl.consumeKafkaMessage Invoked............{}" +message);
         try{
             OrderDTO dto = objectMapper.readValue(message, OrderDTO.class);
             saveOrder(dto);
@@ -55,7 +56,7 @@ public class OrderServiceImpl implements OrderService{
         }
     }
     public OrderDTO saveOrder(OrderDTO orderDTO){
-        log.info("OrderServiceImpl.saveOrder Invoked.");
+        log.info("OrderServiceImpl.saveOrder Invoked...........{}" +orderDTO);
         return orderDTO;
     }
 }
