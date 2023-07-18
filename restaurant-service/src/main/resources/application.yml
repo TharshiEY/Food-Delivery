@@ -21,4 +21,4 @@ spring:
       servers: localhost:9092,localhost:9093
 
 server:
-  port: 1616
+  port: 1617
