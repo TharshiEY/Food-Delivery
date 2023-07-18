@@ -1,0 +1,24 @@
+spring:
+#  cloud:
+#    config:
+#      uri: http://localhost:8888
+#spring:
+#  config:
+#    import:
+#      optional:configserver:http://localhost:8880
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/pos_main
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    baseline-on-migrate: true
+  kafka:
+    consumer:
+      group-id: console-consumer-39158
+    bootstrap:
+      servers: localhost:9092,localhost:9093
+
+server:
+  port: 1617
