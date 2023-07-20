@@ -1,5 +1,6 @@
 package com.food.delivery.Common;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
@@ -26,5 +27,10 @@ public class KafkaConsumerConfig {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
         return new KafkaConsumer<>(properties);
+    }
+
+    @Bean
+    public NewTopic productTopic() {
+        return new NewTopic("product", 1, (short) 1);
     }
 }
