@@ -8,8 +8,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
+    @Query("select o from Order o where upper(o.status) like upper(:status) order by o.orderId")
+    List<Order> findByStatusLikeIgnoreCaseOrderByOrderIdAsc(@NonNull String status);
     @Transactional
     @Modifying
     @Query("update Order o set o.status = :status where upper(o.orderId) like upper(:orderId)")

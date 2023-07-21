@@ -9,4 +9,6 @@ public interface OrderService {
     public OrderDto placeOrder(OrderDto orderDTO);
 
     public String updateOrderStatus(String orderId, String status);
+
+    public void checkFailureRequest();
 }

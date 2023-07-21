@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.food.delivery.Common.GenerateUniqueValue;
 import com.food.delivery.Common.KafkaProducer;
 import com.food.delivery.Dto.OrderDto;
+import com.food.delivery.Dto.Status;
 import com.food.delivery.Entity.Order;
 import com.food.delivery.Entity.OrderRepository;
 import com.food.delivery.Entity.OrderRequestJson;
@@ -107,6 +108,15 @@ public class OrderServiceImpl implements OrderService{
             e.printStackTrace();
             throw new CustomException("Error occurred while updating status in [OrderService.updateOrderStatus()].");
         }
+    }
+
+    @Override
+    public void checkFailureRequest() {
+
+
+
+        Order order = (Order) orderRepository.FindFailureOrder(String.valueOf(Status.IN_PROGRESS));
+
     }
 
     @Override

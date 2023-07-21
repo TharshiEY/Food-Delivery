@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
@@ -24,9 +26,6 @@ public class KafkaProducer {
     }
 
     public void sendMessage(String topicName,String message) {
-        //this is use KafkaProducer class
-//        kafkaTemplate.send(topicName, message);
-        //this is used KafkaConfig file
         ListenableFuture<SendResult<Integer, String>> future = kafkaConfig.kafkaTemplate().send(topicName,message);
         future.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
 
@@ -41,6 +40,11 @@ public class KafkaProducer {
             }
         });
         System.out.println("Message sent: " + message);
+    }
+
+    @Retryable(value = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 1000))
+    public void sendWithRetry(String topic, String message) {
+        kafkaTemplate.send(topic, message);
     }
 }
 
