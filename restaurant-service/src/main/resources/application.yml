@@ -8,7 +8,7 @@ spring:
 #      optional:configserver:http://localhost:8880
 
   datasource:
-    url: jdbc:mysql://localhost:3306/pos_main
+    url: jdbc:mysql://localhost:3306/restaurant_service_db
     username: root
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver

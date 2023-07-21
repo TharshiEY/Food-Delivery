@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String orderAcceptance(Long orderId) {
+    public String orderAcceptance(String orderId) {
         return null;
     }
 
@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @KafkaListener(topics = "order-topic")
     public OrderDto consumeKafkaMessage(String message) {
         try{
-            log.info("OrderServiceImpl.consumeKafkaMessage Invoked............{}" +message);
+            log.info("OrderServiceImpl.consumeKafkaMessage() Invoked............{}" +message);
             OrderDto dto = objectMapper.readValue(message, OrderDto.class);
             return placeOrder(dto);
         }catch (Exception e){
@@ -58,6 +58,30 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             log.error("Error while placing the order: " + e.getMessage());
             throw new CustomException("Error occurred while placing the order. Please try again later.", e);
+        }
+    }
+
+    @KafkaListener(topics = "status-topic")
+    public String consumeKafkaMessageStatus(String message) {
+        try{
+            log.info("OrderServiceImpl.consumeKafkaMessageStatus() Invoked............{}" +message);
+            OrderDto dto = objectMapper.readValue(message, OrderDto.class);
+            return updateOrderStatus(dto.getOrderId(),dto.getStatus());
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new CustomException("Error occurred while consume the order status. Please try again later.", e);
+        }
+    }
+
+    @Override
+    public String updateOrderStatus(String orderId, String status) {
+        try {
+            log.info("OrderServiceImpl.updateOrderStatus() invoked.");
+            orderRepository.updateStatus(status, orderId);
+            return orderRepository.findByOrderIdIgnoreCase(orderId).getStatus();
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new CustomException("Error occurred while updating status. ");
         }
     }
 }

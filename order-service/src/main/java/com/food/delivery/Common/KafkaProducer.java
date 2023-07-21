@@ -23,7 +23,7 @@ public class KafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(String topicName,String message) {
         //this is use KafkaProducer class
 //        kafkaTemplate.send(topicName, message);
         //this is used KafkaConfig file
