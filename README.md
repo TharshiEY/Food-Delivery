@@ -75,3 +75,20 @@ Consumer Jar file start command
 
 
 ![image](https://github.com/TharshiEY/Food-Delivery/assets/133849244/01dca34d-87aa-4311-a3dd-07e9d4254e62)
+
+
+# Error Fix guide
+
+
+
+Step 2
+Have follow this steps one by one 
+Cmd:- 
+	Cd C:\Program Files\RabbitMQ Server\rabbitmq_server-3.12.0\sbin
+	rabbitmq-service.bat start
+
+
+
+
+
+![image](https://github.com/TharshiEY/Food-Delivery/assets/133849244/848d3fe1-5311-4c1e-81dc-bd5caf01cfcf)
