@@ -1,9 +1,12 @@
-package com.food.delivery.Common;
+package com.delivery.riderservice.Common;
 
-import com.food.delivery.Entity.OrderRepository;
+import com.delivery.riderservice.Dto.RiderDto;
+import com.delivery.riderservice.Entity.Rider;
+import com.delivery.riderservice.Entity.RiderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -11,12 +14,13 @@ import java.util.stream.IntStream;
 
 @Configuration
 public class GenerateUniqueValue {
-
     @Autowired
-    OrderRepository orderRepository;
+    RiderRepository riderRepository;
 
     public String generateUniqueOrderId() {
-        String uniqueOrderId;
+
+        // Generate a new uniqueOrderId and initialize a flag to check for duplicates
+        String uniqueRiderId;
         boolean isDuplicate;
 
         do {
@@ -31,16 +35,19 @@ public class GenerateUniqueValue {
                 .collect(Collectors.joining());
 
         // Generate a random number between 100 and 999
-        int randomNum = ThreadLocalRandom.current().nextInt(100, 1000);
+        int randomNum1 = ThreadLocalRandom.current().nextInt(100, 999);
+        int randomNum2 = ThreadLocalRandom.current().nextInt(10, 99);
 
-        // Create the unique orderId by combining the timestamp and random number
-        uniqueOrderId = "ORD" + timestamp + randomLetters + randomNum;
+        // Create the unique riderId by combining the randomLetters and random number
+        uniqueRiderId = "RID" + randomNum1 + randomLetters + randomNum2;
 
         // Check the riderId is duplicate
-        isDuplicate = orderRepository.existsByOrderId(uniqueOrderId);
+        isDuplicate = riderRepository.existsByOrderId(uniqueRiderId);
 
         } while (isDuplicate);
 
-        return uniqueOrderId;
+        return uniqueRiderId;
+
     }
+
 }

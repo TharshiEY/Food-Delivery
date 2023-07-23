@@ -8,25 +8,41 @@
 		<version>2.7.12</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.food</groupId>
-	<artifactId>order-service</artifactId>
+	<groupId>com.delivery</groupId>
+	<artifactId>rider-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>order-service</name>
-	<description>Food Delivery project for Spring Boot</description>
+	<name>rider-service</name>
+	<description>Delivery rider project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
-		<kafka.version>2.3.0</kafka.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -37,44 +53,26 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		&lt;!&ndash; Apache Kafka Clients&ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.apache.kafka</groupId>-->
-<!--			<artifactId>kafka-clients</artifactId>-->
-<!--			<version>${kafka.version}</version>-->
-<!--		</dependency>-->
-		<!-- Spring Kafka -->
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-		<!-- Kafka Clients -->
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.27</version>
-		</dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-rabbit</artifactId>
 		</dependency>
-    </dependencies>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.amqp</groupId>-->
+<!--			<artifactId>spring-amqp-support</artifactId>-->
+<!--&lt;!&ndash;			<version>2.4.12</version>&ndash;&gt;-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>

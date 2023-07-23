@@ -8,4 +8,6 @@ public interface OrderService {
     public boolean orderStatus(String orderId);
 
     public OrderDto updateOrderStatus(String orderId, String status);
+
+    public void checkFailureRequest();
 }

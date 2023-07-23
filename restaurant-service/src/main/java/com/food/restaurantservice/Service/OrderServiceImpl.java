@@ -84,4 +84,11 @@ public class OrderServiceImpl implements OrderService {
             throw new CustomException("Error occurred while updating status. ");
         }
     }
+
+    @Override
+    public void checkFailureRequest() {
+//        orderRepository.findByStatusLikeIgnoreCaseOrderByOrderIdAsc();
+    }
+
+
 }
