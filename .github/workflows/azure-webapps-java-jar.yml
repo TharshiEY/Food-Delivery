@@ -46,6 +46,9 @@ jobs:
           distribution: ${{ env.DISTRIBUTION }}
           cache: 'maven'
 
+      - name: Navigate to the Maven project directory
+        run: cd 'your-maven-project-directory'
+        
       - name: Build with Maven
         run: mvn clean install
 
