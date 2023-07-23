@@ -47,7 +47,7 @@ jobs:
           cache: 'maven'
 
       - name: Navigate to the Maven project directory
-        run: cd 'your-maven-project-directory'
+        run: cd order-service/pom.xml
         
       - name: Build with Maven
         run: mvn clean install
