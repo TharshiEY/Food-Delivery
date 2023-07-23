@@ -20,7 +20,13 @@ spring:
       group-id: console-consumer-39158
     bootstrap:
       servers: localhost:9092,localhost:9093
-#  main:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  #  main:
 #    allow-bean-definition-overriding: true
   main:
     allow-bean-definition-overriding: true

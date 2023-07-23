@@ -1,4 +1,4 @@
-package com.delivery.riderservice.Dto;
+package com.food.delivery.Dto;
 
 import lombok.Data;
 
