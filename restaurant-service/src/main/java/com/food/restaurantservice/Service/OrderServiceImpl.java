@@ -1,6 +1,7 @@
 package com.food.restaurantservice.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.food.restaurantservice.Dto.NotificationDto;
 import com.food.restaurantservice.Dto.OrderDto;
 import com.food.restaurantservice.Entity.Order;
 import com.food.restaurantservice.Entity.OrderRepository;
@@ -20,6 +21,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderMapper orderMapper;
+
+    @Autowired
+    NotificationService notificationService;
 
 
     private final ObjectMapper objectMapper;
@@ -54,6 +58,11 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderMapper.mapToOrder(orderDTO);
             Order saveorder = orderRepository.save(order);
             log.info("OrderServiceImpl.Saved. Successfully!!!");
+            NotificationDto dto = new NotificationDto();
+            dto.setId("ORD001");
+            dto.setName(orderDTO.getName());
+            dto.setMessage(" You got the new order check the app and Accept the order");
+            notificationService.sendNotificationKafka(dto);
             return orderMapper.mapToOrderDto(saveorder);
         } catch (Exception e) {
             log.error("Error while placing the order: " + e.getMessage());
