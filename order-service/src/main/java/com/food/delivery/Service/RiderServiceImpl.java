@@ -9,6 +9,8 @@ import com.food.delivery.Entity.Rider;
 import com.food.delivery.Entity.RiderRepository;
 import com.food.delivery.Mapper.RiderMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class RiderServiceImpl implements RiderService{
 
     @Autowired
     GenerateUniqueValue generateUniqueValue;
+
+    @Autowired
+    RabbitAdmin rabbitAdmin;
 
     private final RabbitMQProducer rabbitMQProducer;
     private final ObjectMapper objectMapper;
@@ -49,8 +54,13 @@ public class RiderServiceImpl implements RiderService{
         Rider saverider = riderRepository.save(rider);
         RiderDto dto = riderMapper.mapToRiderDto(saverider);
 
+        // Create queue
+        Queue q = new Queue("queue-1");
+        rabbitAdmin.declareQueue(q);
+
+
         // RabbitMQ Sending a message
-        rabbitMQProducer.sendMessage(QUEUE_NAME,dto);
+        rabbitMQProducer.sendMessage("queue-1",dto);
         return dto;
     }
 
