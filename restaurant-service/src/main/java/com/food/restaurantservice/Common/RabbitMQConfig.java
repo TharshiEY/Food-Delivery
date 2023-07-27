@@ -1,4 +1,4 @@
-package com.food.delivery.Common.RabbitMQ;
+package com.food.restaurantservice.Common;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -10,18 +10,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    private static final String QUEUE_NAME = "Save_Rider_Queue";
+//    private static final String QUEUE_NAME = "Save_Rider_Queue";
+//
+//    @Bean
+//    public Queue queue() {
+//        return new Queue(QUEUE_NAME, true);
+//    }
 
-    @Bean
-    public Queue queue() {
-        return new Queue(QUEUE_NAME, true);
-    }
-
-    @Bean
-    public Queue ResQueueOrder(){return new Queue("Res-queue-order", true);}
-
-    @Bean
-    public Queue ResQueueDeliver(){return new Queue("Res-queue-delivery", true);}
+//    @Bean
+//    public Queue ResQueueOrder(){return new Queue("Res-queue-order", true);}
 
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
@@ -31,7 +28,7 @@ public class RabbitMQConfig {
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-//        rabbitTemplate.setRoutingKey(QUEUE_NAME);
+        rabbitTemplate.setRoutingKey("Res-queue-order");
         return rabbitTemplate;
     }
 }

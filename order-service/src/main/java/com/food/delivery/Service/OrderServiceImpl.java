@@ -13,6 +13,7 @@ import com.food.delivery.Entity.OrderRequestJsonRepository;
 import com.food.delivery.Exception.CustomException;
 import com.food.delivery.Mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -47,15 +48,30 @@ public class OrderServiceImpl implements OrderService{
         this.orderRequestJsonRepository = orderRequestJsonRepository;
     }
 
+
+    @RabbitListener(queues = "Res-queue-order")
+    public void consumeResOrder(String message){
+        log.info("Order Service : OrderServiceImpl.consumeRider() Invoked"+ message);
+        try {
+            OrderDto dto = objectMapper.readValue(message, OrderDto.class);
+            orderRepository.updateStatus(dto.getStatus(), dto.getOrderId());
+            OrderDto order = orderMapper.mapToOrderDto(orderRepository.findByOrderIdIgnoreCase(dto.getOrderId()));
+            log.info("Order Service : OrderServiceImpl.consumeResOrder() Invoked."+ order);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public String placeOrder(OrderDto orderDTO) {
-        log.info("OrderServiceImpl.placeOrder Invoked");
+        log.info("Order Service : OrderServiceImpl.placeOrder Invoked");
         try {
             String uniqueOrderId = uniqueValue.generateUniqueOrderId();
             orderDTO.setOrderId(uniqueOrderId);
 
             //save the order to local db
-            log.info("Save order to local db invoked.");
+            log.info("Order Service : Save order to local db invoked.");
             Order order = orderMapper.mapToOrder(orderDTO);
             orderRepository.save(order);
 
@@ -69,7 +85,7 @@ public class OrderServiceImpl implements OrderService{
             orderRequestJsonRepository.save(requestJson);
 
             // Send the JSON string as a Kafka message
-            kafkaProducer.sendMessage("order-topic", orderJson);
+            kafkaProducer.sendMessage("Req-order-topic", orderJson);
 
         }catch (JsonProcessingException e){
             // Handle JSON processing exception
@@ -81,7 +97,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public OrderDto updateOrderStatus(String orderId, String status) {
         try {
-            log.info("OrderServiceImpl.updateOrderStatus() invoked.");
+            log.info("Order Service : OrderServiceImpl.updateOrderStatus() invoked.");
 
             // Update Status in local DB
             orderRepository.updateStatus(status, orderId);
@@ -106,9 +122,21 @@ public class OrderServiceImpl implements OrderService{
 
         } catch (Exception e){
             e.printStackTrace();
-            throw new CustomException("Error occurred while updating status in [OrderService.updateOrderStatus()].");
+            throw new CustomException("Order Service : Error occurred while updating status in [OrderService.updateOrderStatus()].");
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void checkFailureRequest() {
